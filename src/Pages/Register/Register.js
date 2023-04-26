@@ -1,37 +1,26 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Contex/AuthProvider/AuthProvider";
-import { GoogleAuthProvider } from "firebase/auth";
 
-const Login = () => {
-    const {googleSignIn,signInUser} = useContext(AuthContext);
-    const googleAuthProvider = new GoogleAuthProvider();
 
-    const handleGoogleSignIn = () =>{
-        googleSignIn(googleAuthProvider)
-        .then(result =>{
-            const user = result.user;
-            console.log(user);
-        })
-        .catch(error=>{
-            console.error(error);
-        })
-    }
-    const handleSubmit = (event) =>{
-        event.preventDefault();
+const Register = () => {
+    const {createSignInUser} = useContext(AuthContext);
+    const handleCreteSignIn = (event)=>{
+      event.preventDefault();
         const form = event.target;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email,password);
-        signInUser(email,password)
-        .then((result)=>{
-            const user = result.user;
-            console.log(user);
+        createSignInUser(email,password)
+        .then(result=>{
+          const user = result.user;
+          console.log(user);
+          form.reset();
+          
         })
         .catch(error=>{
-            console.error(error);
+          console.error(error);
         })
-
 
     }
   return (
@@ -40,8 +29,32 @@ const Login = () => {
         <div className="lg:text-center ">
           <h1 className="text-5xl font-bold py-6">Please Login now!</h1>
         </div>
-        <form onSubmit={handleSubmit} className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+        <form onSubmit={handleCreteSignIn} className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <div className="card-body max-sm:mx-12">
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Full Name</span>
+              </label>
+              <input
+                type="text"
+                name="name"
+                placeholder="Full Name"
+                className="input input-bordered"
+                required
+              />
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Photo URL</span>
+              </label>
+              <input
+                type="text"
+                name='photoURL'
+                placeholder="Photo URL"
+                className="input input-bordered"
+                required
+              />
+            </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -60,23 +73,23 @@ const Login = () => {
               </label>
               <input
                 type="password"
-                name="password"
                 placeholder="password"
+                name="password"
                 className="input input-bordered"
                 required
               />
               <label className="label">
-                <Link to="/register" className="label-text-alt link link-hover">
-                  Don't have any account?
+                <Link to="/login" className="label-text-alt link link-hover">
+                  Already Have and account?
                 </Link>
               </label>
             </div>
             <div className="form-control mt-6">
               <button className="btn btn-primary">Login</button>
             </div>
-            <div class="divider">OR</div>
+            <div class="divider">OR</div> 
             <div className="form-control">
-              <button onClick={handleGoogleSignIn} className="btn btn-primary">Google</button>
+              <button className="btn btn-primary">Google</button>
             </div>
           </div>
         </form>
@@ -85,4 +98,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;

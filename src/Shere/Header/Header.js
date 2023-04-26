@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../Contex/AuthProvider/AuthProvider";
 
 const Header = () => {
+  const { user,logOut } = useContext(AuthContext);
+
+  const handleLogOut = ()=>{
+     logOut()
+     .then(result=>{
+
+     })
+     .catch(error=>{
+      console.error(error);
+     })
+  }
+  console.log(user);
   return (
     <div className="navbar bg-base-100">
       <div className="navbar-start">
@@ -30,7 +43,7 @@ const Header = () => {
               <Link to="/">Courses</Link>
             </li>
             <li tabIndex={0}>
-              <a className="justify-between">
+              <Link className="justify-between">
                 Parent
                 <svg
                   className="fill-current"
@@ -41,10 +54,10 @@ const Header = () => {
                 >
                   <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z" />
                 </svg>
-              </a>
+              </Link>
             </li>
             <li>
-              <a>Item 3</a>
+              <Link>Item 3</Link>
             </li>
           </ul>
         </div>
@@ -70,11 +83,32 @@ const Header = () => {
         <div className="form-control">
           <label className="cursor-pointer label">
             <span className="label-text">Dark Mood</span>
-            <input type="checkbox" className="toggle toggle-primary mx-2" checked />
+            <input
+              type="checkbox"
+              className="toggle toggle-primary mx-2"
+              checked
+            />
           </label>
         </div>
-        <Link to='/login' className="btn mx-2">Sign In</Link>
-        <Link to='/register' className="btn">Register</Link>
+        <>
+          {user ? (
+            <>
+              <span className="me-3 my-2">{user?.displayName}</span>
+              <button onClick={handleLogOut} className="btn">
+                Log Out
+              </button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="btn mx-2">
+                Sign In
+              </Link>
+              <Link to="/register" className="btn">
+                Register
+              </Link>
+            </>
+          )}
+        </>
       </div>
     </div>
   );
