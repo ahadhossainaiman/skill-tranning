@@ -91,12 +91,18 @@ const Header = () => {
         <>
           {user ? (
             <>
-              <span className="me-3 my-2">{user?.displayName}</span>
-              <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
-                <div className="w-10 rounded-full mx-2">
-                  <img src={user?.photoURL} />
-                </div>
-              </label>
+              {/* <span className="my-2">{user?.displayName}</span> */}
+              <div
+                className="tooltip tooltip-bottom"
+                data-tip={user?.displayName}
+              >
+                <label tabIndex={0} className="avatar">
+                  <div className="w-10 rounded-full mx-2">
+                    <img src={user?.photoURL} />
+                  </div>
+                </label>
+              </div>
+
               <button onClick={handleLogOut} className="btn">
                 Log Out
               </button>
