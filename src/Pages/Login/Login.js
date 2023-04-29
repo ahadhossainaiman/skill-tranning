@@ -1,11 +1,15 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Contex/AuthProvider/AuthProvider";
 import { GoogleAuthProvider } from "firebase/auth";
+import { toast } from "react-hot-toast";
 
 const Login = () => {
     const {googleSignIn,signInUser} = useContext(AuthContext);
     const googleAuthProvider = new GoogleAuthProvider();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname; //!important
 
     const handleGoogleSignIn = () =>{
         googleSignIn(googleAuthProvider)
@@ -27,9 +31,16 @@ const Login = () => {
         .then((result)=>{
             const user = result.user;
             console.log(user);
+            form.reset();
+            if(user.emailVerified){
+              navigate(from,{replace:true});
+            }
+            else{
+              toast.error('Your email is not verified');
+            }
         })
         .catch(error=>{
-            console.error(error);
+            console.error(error.message);
         })
 
 

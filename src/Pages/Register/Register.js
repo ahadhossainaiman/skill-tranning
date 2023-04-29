@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../Contex/AuthProvider/AuthProvider";
+import { toast } from "react-hot-toast";
 
 
 const Register = () => {
-    const {createSignInUser} = useContext(AuthContext);
+    const {createSignInUser,verifiedEmail} = useContext(AuthContext);
     const handleCreteSignIn = (event)=>{
       event.preventDefault();
         const form = event.target;
@@ -16,12 +17,23 @@ const Register = () => {
           const user = result.user;
           console.log(user);
           form.reset();
+          handleVerifiedEmail();
+          toast.success('Please Verified your email address')
           
         })
         .catch(error=>{
           console.error(error);
         })
+    }
 
+    const handleVerifiedEmail = () =>{
+      verifiedEmail()
+      .then(()=>{
+
+      })
+      .catch(error=>{
+        console.error(error);
+      })
     }
   return (
     <div className="hero min-h-screen">
@@ -85,7 +97,7 @@ const Register = () => {
               </label>
             </div>
             <div className="form-control mt-6">
-              <button className="btn btn-primary">Login</button>
+              <button className="btn btn-primary">Register</button>
             </div>
             <div class="divider">OR</div> 
             <div className="form-control">
