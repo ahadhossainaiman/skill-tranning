@@ -19,6 +19,7 @@ const Login = () => {
         })
         .catch(error=>{
             console.error(error);
+            toast.error(`${error.message}`);
         })
     }
     const handleSubmit = (event) =>{
@@ -41,6 +42,7 @@ const Login = () => {
         })
         .catch(error=>{
             console.error(error.message);
+            toast.error(`${error.message}`);
         })
 
 

@@ -5,10 +5,12 @@ import { toast } from "react-hot-toast";
 
 
 const Register = () => {
-    const {createSignInUser,verifiedEmail} = useContext(AuthContext);
+    const {createSignInUser,verifiedEmail,updateUserProfile} = useContext(AuthContext);
     const handleCreteSignIn = (event)=>{
       event.preventDefault();
         const form = event.target;
+        const name = form.name.value;
+        const photoURL = form.photoURL.value;
         const email = form.email.value;
         const password = form.password.value;
         console.log(email,password);
@@ -18,11 +20,13 @@ const Register = () => {
           console.log(user);
           form.reset();
           handleVerifiedEmail();
+          handleUpdateProfile(name,photoURL);
           toast.success('Please Verified your email address')
           
         })
         .catch(error=>{
           console.error(error);
+          toast.error(`${error.message}`);
         })
     }
 
@@ -33,6 +37,22 @@ const Register = () => {
       })
       .catch(error=>{
         console.error(error);
+        toast.error(`${error.message}`);
+      })
+    }
+
+    const handleUpdateProfile = (name,photoURL)=>{
+      const profile = {
+        displayName:name,
+        photoURL:photoURL
+      }
+      updateUserProfile(profile)
+      .then(result=>{
+
+      })
+      .catch(error=>{
+        console.error(error);
+        toast.error(`${error.message}`);
       })
     }
   return (
